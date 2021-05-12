@@ -5,7 +5,7 @@ int main(void)
 	int i, length = 0;
 	char str[50];
 	printf("\n문자열을 입력하세요 : ");
-	gets(str);
+	gets(str);  // 문자열 입력 함수
 	printf("\n입력된 문자열은 \n \"");
 	for (i = 0; str[i]; i++)
 	{
