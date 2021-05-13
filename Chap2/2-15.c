@@ -6,7 +6,7 @@ void main()
 	hanoi(3, 'A', 'B', 'C');
 	getchar();
 }
-
+ 
 void hanoi(int n, int start, int work, int target)
 {
 	if (n == 1)
