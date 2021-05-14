@@ -80,11 +80,33 @@ void outputNode(headNode* h)
 {
 	Node* output = h->head;    // 맨 처음 노드 가리킴 
 
-	while (output != NULL)     // 리스트가 있으면 반복
+	if (h->head == NULL)
 	{
-		printf("%d\n", output->data);
-		output = output->next; // 그 다음 노드 가리킴
+		printf("노드가 없습니다.\n");
 	}
+	else 
+	{
+		while (output != NULL)     // 리스트가 있으면 반복
+		{
+			printf("%d\n", output->data);
+			output = output->next; // 그 다음 노드 가리킴
+		}
+	}
+	
+}
+
+// 노드 삭제 함수
+void allDelNode(headNode* h)
+{
+	Node* del;
+
+	while (h->head != NULL)  // head 부터 차례대로 없애기 
+	{
+		del = h->head;       // del에 처음 노드 연결 
+		h->head = del->next; // head를 del 다음노드랑 연결 시키고 
+		free(del);           // del 삭제 
+	}
+
 }
 
 int main(void)
@@ -92,13 +114,11 @@ int main(void)
 	headNode* h;
 	h = createHead();
 
-	//preInsertNode(h, 10);
-	//rearInsertNode(h, 20);
-	preInsertNode(h, 30);
-	rearInsertNode(h, 40);
+	preInsertNode(h, 10);
+	rearInsertNode(h, 20);
+	allDelNode(h);
 	outputNode(h);
 
-	// todo free(h) 전부 다 되게 만들기 
-	free(h);
+
 	return 0;
 }
