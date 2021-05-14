@@ -105,20 +105,69 @@ void allDelNode(headNode* h)
 		del = h->head;       // del에 처음 노드 연결 
 		h->head = del->next; // head를 del 다음노드랑 연결 시키고 
 		free(del);           // del 삭제 
+		del = NULL;
 	}
+}
 
+Node* searchNode(headNode* h, int data)
+{
+	Node* s = h->head;
+
+	while (s != NULL)
+	{
+		if (s->data == data)
+		{
+			return s;
+		}
+		else s = s->next;
+	}
+	return s;
+}
+
+void selectDeleteNode(headNode* h, Node* n)
+{
+	Node* del;
+
+	if (h->head->next == NULL)
+	{
+		free(h->head);
+		h->head = NULL;
+		return;
+	}
+	else if (n == NULL)
+	{
+		return;
+	}
+	else
+	{
+		del = h->head;
+		while (del->next != n)
+		{
+			del = del->next;
+		}
+
+		del->next = n->next;
+		free(n);
+	}
 }
 
 int main(void)
 {
 	headNode* h;
+	Node* n;
 	h = createHead();
 
 	preInsertNode(h, 10);
-	rearInsertNode(h, 20);
-	allDelNode(h);
+	/*preInsertNode(h, 20);
+	preInsertNode(h, 30);
+	rearInsertNode(h, 40);*/
 	outputNode(h);
 
+	n = searchNode(h, 40);
+	printf("%d을 찾았다.\n", n->data);
+
+	selectDeleteNode(h, n);
+	outputNode(h);
 
 	return 0;
 }
