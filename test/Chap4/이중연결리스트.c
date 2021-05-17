@@ -41,13 +41,24 @@ void insertNode(HeadNode* phead, DListNode* preNode, DListNode* newNode)
 	}
 	else
 	{
-		newNode->next = preNode->next;
-		preNode->next = newNode;
-		newNode->prev = preNode;
-
-		if (newNode->next !=NULL)
+		if (preNode == NULL)
 		{
-			newNode->next->prev = newNode;
+			phead->head->prev = newNode;
+			newNode->next = phead->head;
+			phead->head = newNode;
+		}
+		else 
+		{
+			preNode->next->prev = newNode;
+			newNode->next = preNode->next;
+
+			newNode->prev = preNode;
+			preNode->next = newNode;
+
+			if (preNode->next == NULL)
+			{
+				//todo 
+			}
 		}
 	}
 }
@@ -57,28 +68,45 @@ void printNode(HeadNode* h)
 	DListNode* n;
 	n = h->head;
 	
-	while (n != NULL)
+	if (n == NULL)
 	{
-		printf("%d\n", n->data);
-		n = n->next;
+		printf("리스트가 없습니다.\n");
+	}
+	else
+	{
+		while (n != NULL)
+		{
+			printf("%d\n", n->data);
+			n = n->next;
+		}
 	}
 }
 
 void deleteNode(HeadNode* h, DListNode* del)
 {
-	// TODO : 3개일 때 중간 노드는 지울 수 있다 -> 나머지는 안됌 
-	//      : 노드가 2개일 때 마지막 노드는 지워지지 않음
-	
-	DListNode* temp;
 	if (del != NULL)
 	{
 		if (h->head == NULL)
 		{
 			return;
 		}
-		else if (del->next == NULL)
+		else if (del->next == NULL) // del이 마지막 노드 일 때 
 		{
-
+			del->prev->next = del->next;
+			free(del);
+		}
+		else if (h->head == del) // del이 맨 처음 노드 일 때 
+		{
+			if (del->next == NULL)  // del이 맨 처음이고 마지막 노드 일 때 
+			{
+				h->head = NULL;
+				free(del);
+			}
+			else
+			{
+				h->head = del->next;
+				free(del);
+			}
 		}
 		else
 		{
@@ -91,30 +119,63 @@ void deleteNode(HeadNode* h, DListNode* del)
 	{
 		return;
 	}
+}
 
-	
+DListNode* findNode(HeadNode* phead, int data)
+{
+	DListNode* find = phead->head;
+
+	while (find != NULL)
+	{
+		if (find->data == data)
+		{
+			return find;
+		}
+		else
+		{
+			find = find->next;
+		}
+	}
+	return find;
+
 }
 
 int main(void)
 {
 	HeadNode* h;
+	DListNode* n;
+
 	DListNode* a;
 	DListNode* b;
 	DListNode* c;
+	DListNode* d;
+
 
 	h = createHead();
 	a = createNode(5);
-	b = createNode(10);
+	//b = createNode(10);
 	//c = createNode(15);
+	//d = createNode(20);
+
 
 	insertNode(h, NULL, a);
-	insertNode(h, a, b);
-	//insertNode(h, b, c);
+	//insertNode(h, NULL, b);
+	//insertNode(h, a, c);
+	//insertNode(h, c, d);
+	printNode(h);
+	//deleteNode(h, a);
+
+	//printNode(h);
+
+	/*n = findNode(h, 5);
+	printf("-------찾아서 추가------\n");
+	insertNode(h, n, c);
 	printNode(h);
 
-	deleteNode(h, b);
-	printNode(h);
-
+	printf("-------삭제 이후--------\n");
+	n = findNode(h, 10);
+	deleteNode(h, n);
+	printNode(h);*/
 
 	return 0;
 }
