@@ -75,6 +75,33 @@ void rearInsertNode(headNode* h, int data)
 	
 }
 
+ //중간에 노드 삽입하는 함수 
+void midInsertNode(headNode* h, Node* pn, int data)
+{
+	Node* newNode = (Node*)malloc(sizeof(Node));
+
+	if (newNode != NULL)
+	{
+		newNode->next = NULL;
+		newNode->data = data;
+
+		if (h->head == NULL)             // 노드가 없을 때 
+		{
+			newNode->next = NULL;
+			h->head = newNode;
+		}
+		else if(pn == NULL)
+		{
+			printf("위치를 찾을 수 없습니다.\n");
+		}
+		else
+		{
+			newNode->next = pn->next;
+			pn->next = newNode;
+		}
+	}
+}
+
 // 출력 함수
 void outputNode(headNode* h)
 {
@@ -157,16 +184,19 @@ int main(void)
 	Node* n;
 	h = createHead();
 
+	rearInsertNode(h, 40);
 	preInsertNode(h, 10);
-	/*preInsertNode(h, 20);
+	//preinsertnode(h, 20);
+	//preInsertNode(h, 30);
 	preInsertNode(h, 30);
-	rearInsertNode(h, 40);*/
-	outputNode(h);
+	//outputNode(h);
 
-	n = searchNode(h, 40);
-	printf("%d을 찾았다.\n", n->data);
+	//n = searchNode(h, 10);
+	//printf("%d을 찾았다.\n", n->data);
 
-	selectDeleteNode(h, n);
+	midInsertNode(h, NULL, 50);
+
+	//selectDeleteNode(h, n);
 	outputNode(h);
 
 	return 0;
