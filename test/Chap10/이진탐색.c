@@ -4,7 +4,7 @@ int BSearch(int* pary, int sz, int tg)
 {
 	int first = 0;
 	int last = sz - 1;
-	int mid;
+	int mid; 
 	while (first <= last)
 	{
 		mid = (first + last) / 2;
